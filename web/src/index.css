@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000a0f;
+  color: white;
+}
+
+.gradient {
+  background: linear-gradient(180deg, #091e26 0%, #00131c 100%);
+}
+
+.fade {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 99;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 10, 15, 1) 0%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 10, 15, 1) 100%
+  );
+  /* background: red; */
+}
+
+.outline {
+  outline: red dashed 1px;
+}
+
+/* .swiper-slide {
+  opacity: 0.25;
+} */
+
+/* .swiper-slide-visible {
+  opacity: 1;
+} */
