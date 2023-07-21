@@ -19,21 +19,29 @@ export function New() {
 
   function handleCreateProduct(e: any) {
     e.preventDefault();
-    const newProduct = {
-      name,
-      description,
-      category,
-      price,
-      ingredients: JSON.stringify(ingredients), // Convert ingredients array to a JSON string
-      image: image, // The uploaded file object
-    };
+    // const newProduct = {
+    //   name,
+    //   description,
+    //   category,
+    //   price,
+    //   ingredients: JSON.stringify(ingredients), // Convert ingredients array to a JSON string
+    //   image: image, // The uploaded file object
+    // };
 
-    try {
-      api.post("/products", newProduct);
-      alert("Produco criado com sucesso");
-    } catch {
-      alert("erro");
-    }
+    // const newProduct = new FormData()
+    // newProduct.append('name', name)
+    // newProduct.append('description', description)
+    // newProduct.append('category', category)
+    // newProduct.append('price', price)
+    // newProduct.append('ingredients', ingredients)
+    // newProduct.append('image', image)
+
+    // try {
+    //   api.post("/products", newProduct);
+    //   alert("Produco criado com sucesso");
+    // } catch {
+    //   alert("erro");
+    // }
   }
 
   function handleChangeImage(e: any) {
