@@ -32,8 +32,6 @@ export function SignUp() {
   });
 
   function handleSignUp(data: SignUpInputs) {
-    console.log(data);
-
     api
       .post("/users", data)
       .then(() => {

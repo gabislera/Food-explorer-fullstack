@@ -8,12 +8,26 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 
-interface SectionProps {
-  title: string;
+interface DataProps {
+  id: number
+  name: string
+  description: string
+  category: string
+  price: number
+  image: string
 }
 
-export function Section({ title }: SectionProps) {
+interface SectionProps {
+  title: string;
+  data: DataProps[]
+  categoryType: string
+
+}
+
+export function Section({ title, data, categoryType }: SectionProps) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
+  const filteredProducts = data.filter(product => product.category === categoryType)
 
   const slidesPerView = isMobile ? 2 : 4;
   const isCentered = isMobile ? true : false;
@@ -33,27 +47,12 @@ export function Section({ title }: SectionProps) {
         className="mySwiper"
         watchSlidesProgress
       >
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
+        {filteredProducts.map(product => (
+          <SwiperSlide key={product.id}>
+            <Card product={product} />
+          </SwiperSlide>
+        )
+        )}
       </Swiper>
     </div>
   );

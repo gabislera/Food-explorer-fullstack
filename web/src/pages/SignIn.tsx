@@ -30,13 +30,12 @@ export function SignIn() {
   });
 
   function handleSignIn(data: SignInInputs) {
-    console.log(data);
     signIn(data);
   }
 
   return (
     <div className="h-screen bg-dark-400 flex">
-      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[45rem] ">
+      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[45rem] md:mx-auto ">
         <div className="flex gap-3 mb-[4.56rem]">
           <img src={polygon} alt="" />
           <h1 className="text-light-100 text-4xl font-bold flex-shrink-0 ">

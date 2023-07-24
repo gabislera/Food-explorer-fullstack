@@ -1,15 +1,32 @@
 import { Heart, PencilSimple } from "@phosphor-icons/react";
-import dish from "../assets/Dish.png";
 import "keen-slider/keen-slider.min.css";
 import { ProductAdd } from "./ProductAdd";
 import { useAuth } from "../hooks/auth";
+import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
-export function Card() {
+interface ProductCardProps {
+  id: number
+  name: string
+  description: string
+  category: string
+  price: number
+  image: string
+}
+
+export function Card({ product }: { product: ProductCardProps }) {
   const { isAdmin } = useAuth();
+  const navigate = useNavigate()
+
+  function handleDetails() {
+    navigate(`/products/${product.id}`)
+  }
+
+  const imageUrl = `${api.defaults.baseURL}/files/${product.image}`
 
   return (
-    <div className="bg-dark-300 max-w-[13.125rem] md:max-w-[19rem] items-center rounded-lg flex flex-col gap-3 md:gap-4 p-6 relative">
-      <img src={dish} alt="" className="w-[5.5rem] md:w-auto" />
+    <div onClick={handleDetails} className="bg-dark-300 cursor-pointer max-w-[13.125rem] md:max-w-[19rem] items-center rounded-lg flex flex-col gap-3 md:gap-4 p-6 relative">
+      <img src={imageUrl} alt="" className="w-[5.5rem] md:w-auto" />
       {isAdmin ? (
         <PencilSimple
           color="white"
@@ -20,14 +37,14 @@ export function Card() {
         <Heart color="white" size={24} className="absolute top-4 right-4" />
       )}
 
-      <h1 className="font-poppins text-sm md:text-2xl font-bold text-light-300">
-        Spaguetti Gambe &#62;
+      <h1 className="font-poppins text-sm md:text-2xl font-bold text-light-300 truncate">
+        {product.name} &#62;
       </h1>
       <span className="hidden md:inline font-roboto text-sm font-normal text-light-400">
-        Massa fresca com camarões e pesto
+        {product.description}
       </span>
       <span className="font-roboto md:text-[2rem] font-normal text-cake-200">
-        R$ 79,97
+        R$ {product.price}
       </span>
 
       {!isAdmin && <ProductAdd />}
