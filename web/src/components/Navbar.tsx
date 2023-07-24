@@ -2,9 +2,11 @@ import { List, MagnifyingGlass, Receipt, SignOut } from "@phosphor-icons/react";
 import polygon from "../assets/polygon.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
+import { useState } from "react";
 
 export function Navbar() {
   const { signOut } = useAuth();
+  const [search, setSearch] = useState('')
 
   const navigate = useNavigate();
 
@@ -44,6 +46,8 @@ export function Navbar() {
           className="py-3 w-full text-light-500 bg-dark-900 rounded-lg text-center "
           type="text"
           placeholder="Busque por pratos ou ingredientes"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
         />
       </div>
 

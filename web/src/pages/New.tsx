@@ -4,10 +4,11 @@ import { CaretLeft, UploadSimple } from "@phosphor-icons/react";
 import { Input } from "../components/Input";
 import { Tag } from "../components/Tag";
 import { Button } from "../components/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../services/api";
 
 export function New() {
+
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
@@ -19,29 +20,28 @@ export function New() {
 
   function handleCreateProduct(e: any) {
     e.preventDefault();
-    // const newProduct = {
-    //   name,
-    //   description,
-    //   category,
-    //   price,
-    //   ingredients: JSON.stringify(ingredients), // Convert ingredients array to a JSON string
-    //   image: image, // The uploaded file object
-    // };
+    const newProduct = new FormData()
 
-    // const newProduct = new FormData()
-    // newProduct.append('name', name)
-    // newProduct.append('description', description)
-    // newProduct.append('category', category)
-    // newProduct.append('price', price)
-    // newProduct.append('ingredients', ingredients)
-    // newProduct.append('image', image)
+    newProduct.append('name', name)
+    newProduct.append('description', description)
+    newProduct.append('category', category)
+    newProduct.append('price', price)
+    newProduct.append('ingredients', JSON.stringify(ingredients))
+    if (image) {
+      newProduct.append('image', image);
+    }
 
-    // try {
-    //   api.post("/products", newProduct);
-    //   alert("Produco criado com sucesso");
-    // } catch {
-    //   alert("erro");
-    // }
+    try {
+      api.post("/products", newProduct);
+      setName('')
+      setDescription('')
+      setCategory('')
+      setPrice('')
+      setImage(null)
+      alert("Produco criado com sucesso");
+    } catch {
+      alert("erro");
+    }
   }
 
   function handleChangeImage(e: any) {

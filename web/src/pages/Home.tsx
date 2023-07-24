@@ -6,9 +6,30 @@ import { useMediaQuery } from "react-responsive";
 import "keen-slider/keen-slider.min.css";
 import { Section } from "../components/Section";
 import { Footer } from "../components/Footer";
+import { useEffect, useState } from "react";
+import { api } from "../services/api";
+
+interface ProductProps {
+  id: number
+  name: string
+  description: string
+  category: string
+  price: number
+  image: string
+}
 
 export function Home() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const [products, setProducts] = useState<ProductProps[]>([])
+
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await api.get('/products')
+      setProducts(response.data.products)
+    }
+
+    fetchTags()
+  }, [])
 
   return (
     <div className=" bg-dark-400 ">
@@ -37,9 +58,9 @@ export function Home() {
         </div>
       </div>
 
-      <Section title="Refeições" />
-      <Section title="Sobremesas" />
-      <Section title="Bebidas" />
+      <Section title="Refeições" data={products} categoryType='refeicoes' />
+      <Section title="Sobremesas" data={products} categoryType='sobremesas' />
+      <Section title="Bebidas" data={products} categoryType='bebidas' />
 
       {/* modificar espaçamento footer */}
       <div className="h-[8rem]"></div>
