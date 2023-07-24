@@ -43,9 +43,7 @@ class ProductController {
   }
 
   async index(req, res) {
-    const { name } = req.query
-
-    const products = await knex('products').whereLike('name', `%${name}%`)
+    const products = await knex('products')
 
     return res.json({ products })
   }
