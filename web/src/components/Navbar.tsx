@@ -3,16 +3,22 @@ import polygon from "../assets/polygon.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import { useState } from "react";
+import { useActive } from "../hooks/active";
 
 export function Navbar() {
   const { signOut } = useAuth();
   const [search, setSearch] = useState('')
-
+  const { setActiveProduct } = useActive()
   const navigate = useNavigate();
 
   function handleSignOut() {
     navigate("/");
     signOut();
+  }
+
+  function handleCreateProduct() {
+    navigate('/create')
+    setActiveProduct(null)
   }
 
   const { isAdmin } = useAuth();
@@ -52,12 +58,12 @@ export function Navbar() {
       </div>
 
       {isAdmin ? (
-        <Link
-          to="/new"
+        <button
+          onClick={handleCreateProduct}
           className="text-light-100 rounded-md font-poppins font-normal md:bg-tomato-100 md:py-3 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap"
         >
           <span className="hidden md:inline">Novo prato</span>
-        </Link>
+        </button>
       ) : (
         <button className="text-light-100 relative rounded-md font-poppins font-normal md:bg-tomato-100 md:py-2 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap">
           <Receipt size={32} />

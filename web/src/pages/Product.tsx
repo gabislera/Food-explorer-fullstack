@@ -3,45 +3,54 @@ import { Navbar } from "../components/Navbar";
 import { CaretLeft, Minus, Plus } from "@phosphor-icons/react";
 import { useAuth } from "../hooks/auth";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../services/api";
+import { useActive } from "../hooks/active";
 
 interface ProductProps {
-  id: number
-  name: string
-  description: string
-  category: string
-  price: number
-  image: string
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: string;
+  image: string;
 }
 
 export function Product() {
   const { isAdmin } = useAuth();
-  const params = useParams()
-  const [product, setProduct] = useState<ProductProps>()
+  const params = useParams();
+  const [product, setProduct] = useState<ProductProps>();
+  const navigate = useNavigate();
+  const { setActiveProduct } = useActive();
+
 
   useEffect(() => {
     async function fetchProduct() {
-      const response = await api.get(`/products/${params.id}`)
-      setProduct(response.data)
-      // console.log(product)
+      const response = await api.get(`/products/${params.id}`);
+      setProduct(response.data);
     }
-    fetchProduct()
-  }, [params.id])
+    fetchProduct();
+  }, [params.id]);
 
-  const imageUrl = `${api.defaults.baseURL}/files/${product?.image}`
+  function handleEditProduct() {
+    navigate("/edit");
+    setActiveProduct(product);
+  }
 
+  const imageUrl = `${api.defaults.baseURL}/files/${product?.image}`;
+
+  if (!product) return <></>;
   return (
     <div className="flex-layout min-h-screen flex flex-col">
       <Navbar />
       <main className="md:max-w-[70rem]  mx-auto flex-1">
-        <a
+        <Link
+          to='/'
           className="mt-6 md:ml-0 flex items-center font-poppins text-2xl font-bold"
-          href=""
         >
           <CaretLeft size={32} />
           voltar
-        </a>
+        </Link>
 
         <div className="flex flex-col items-center max-w-[19.75rem] md:max-w-full md:flex-row gap-4 md:gap-12 mt-4 md:mt-11">
           <img
@@ -67,6 +76,7 @@ export function Product() {
 
             {isAdmin ? (
               <button
+                onClick={handleEditProduct}
                 className="rounded-md font-poppins w-full text-sm font-normal md:w-fit text-light-100 bg-tomato-100 py-2 px-6"
                 type="submit"
               >

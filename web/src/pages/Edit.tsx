@@ -3,44 +3,53 @@ import { Navbar } from "../components/Navbar";
 import { CaretLeft, UploadSimple } from "@phosphor-icons/react";
 import { Input } from "../components/Input";
 import { Tag } from "../components/Tag";
-import { Button } from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useActive } from "../hooks/active";
 import { api } from "../services/api";
 
-export function New() {
-
+export function Edit() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const ingredients = ["alface", "tomate"];
+  const { activeProduct, setActiveProduct } = useActive()
 
-  const isNew = true;
+  useEffect(() => {
+    setName(activeProduct.name);
+    setCategory(activeProduct.category);
+    setPrice(activeProduct.price);
+    setDescription(activeProduct.description);
+  }, []);
 
-  function handleCreateProduct(e: any) {
-    e.preventDefault();
-    const newProduct = new FormData()
+  function handleUpdateProduct(e: any) {
+      e.preventDefault();
+      const updatedProduct = new FormData()
 
-    newProduct.append('name', name)
-    newProduct.append('description', description)
-    newProduct.append('category', category)
-    newProduct.append('price', price)
-    newProduct.append('ingredients', JSON.stringify(ingredients))
-    if (image) {
-      newProduct.append('image', image);
-    }
+      updatedProduct.append('name', name)
+      updatedProduct.append('description', description)
+      updatedProduct.append('category', category)
+      updatedProduct.append('price', price)
+      updatedProduct.append('ingredients', JSON.stringify(ingredients))
+      if (image) {
+        updatedProduct.append('image', image);
+      }
 
-    try {
-      api.post("/products", newProduct);
-      setName('')
-      setDescription('')
-      setCategory('')
-      setPrice('')
-      setImage(null)
-      alert("Produco criado com sucesso");
-    } catch {
-      alert("erro");
+      const productId = activeProduct.id;
+
+      try{
+        api.put(`/products/${productId}`, updatedProduct);
+            
+        setName("");
+        setDescription("");
+        setCategory("");
+        setPrice("");
+        setImage(null);
+        setActiveProduct(null)
+        alert("Produto atualizado com sucesso");
+      } catch {
+        alert("Erro ao atualizar o produto");
     }
   }
 
@@ -54,7 +63,7 @@ export function New() {
       <Navbar />
 
       <form
-        onSubmit={handleCreateProduct}
+        onSubmit={handleUpdateProduct}
         className="flex flex-col flex-1 mx-8 gap-6 mb-14 md:mx-auto md:w-[70rem]"
       >
         <a className="mt-6 md:ml-0 flex items-center font-poppins " href="">
@@ -143,24 +152,20 @@ export function New() {
         </div>
 
         <div className="md:self-end">
-          {isNew ? (
-            <Button title="Salvar alterações" />
-          ) : (
-            <div className="flex gap-8">
-              <button
-                className="rounded-md w-full font-poppins font-normal text-light-100 bg-dark-900 py-3 px-6 whitespace-nowrap min-w-fit"
-                type="button"
-              >
-                Excluir prato
-              </button>
-              <button
-                className="rounded-md w-full font-poppins font-normal text-light-100 bg-tomato-100 py-3 px-6 whitespace-nowrap min-w-fit"
-                type="submit"
-              >
-                Salvar alterações
-              </button>
-            </div>
-          )}
+          <div className="flex gap-8">
+            <button
+              className="rounded-md w-full font-poppins font-normal text-light-100 bg-dark-900 py-3 px-6 whitespace-nowrap min-w-fit"
+              type="button"
+            >
+              Excluir prato
+            </button>
+            <button
+              className="rounded-md w-full font-poppins font-normal text-light-100 bg-tomato-100 py-3 px-6 whitespace-nowrap min-w-fit"
+              type="submit"
+            >
+              Salvar alterações
+            </button>
+          </div>
         </div>
       </form>
 

@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { Menu } from "../pages/Menu";
 import { Product } from "../pages/Product";
-import { New } from "../pages/New";
+import { Create } from "../pages/Create";
+import { Edit } from "../pages/Edit";
 
 export function AppRoutes() {
   return (
@@ -10,7 +11,8 @@ export function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="/products/:id" element={<Product />} />
-      <Route path="/new" element={<New />} />
+      <Route path="/create" element={<Create />} />
+      <Route path="/edit" element={<Edit />} />
     </Routes>
   );
 }
