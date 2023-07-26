@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import 'swiper/css/pagination';
 
 import { Navigation } from "swiper/modules";
 
@@ -34,7 +35,7 @@ export function Section({ title, data, categoryType }: SectionProps) {
 
   return (
     <div className="md:max-w-[70rem] md:mx-auto mt-16 md:mt-12">
-      <h1 className="font-poppins md:text-3xl ml-6 md:ml-0 text-light-300 font-medium">
+      <h1 className="font-poppins md:text-3xl ml-6 md:ml-0 text-light-300 font-medium mb-4">
         {title}
       </h1>
 
@@ -44,6 +45,9 @@ export function Section({ title, data, categoryType }: SectionProps) {
         slidesPerView={slidesPerView}
         centeredSlides={isCentered}
         spaceBetween={10}
+        loop={true}
+
+
         className="mySwiper"
         watchSlidesProgress
       >

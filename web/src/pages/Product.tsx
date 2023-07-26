@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../services/api";
 import { useActive } from "../hooks/active";
+import { Tag } from "../components/Tag";
 
+interface Ingredients {
+  name: string
+}
 interface ProductProps {
   id: number;
   name: string;
@@ -14,6 +18,7 @@ interface ProductProps {
   category: string;
   price: string;
   image: string;
+  ingredients: Ingredients[]
 }
 
 export function Product() {
@@ -31,6 +36,10 @@ export function Product() {
     }
     fetchProduct();
   }, [params.id]);
+
+  useEffect(() => {
+    console.log(product)
+  }, [product])
 
   function handleEditProduct() {
     navigate("/edit");
@@ -66,10 +75,9 @@ export function Product() {
               {product?.description}
             </span>
             <div className="flex gap-2 mb-10">
-              <span className="bg-dark-1000 px-2 py-1 rounded">alface</span>
-              <span className="bg-dark-1000 px-2 py-1 rounded">alface</span>
-              <span className="bg-dark-1000 px-2 py-1 rounded">alface</span>
-              <span className="bg-dark-1000 px-2 py-1 rounded">alface</span>
+              {product.ingredients.map((ingredient, index) => (
+                <Tag key={index} value={ingredient.name} />
+              ))}
             </div>
 
             {/* componentizar */}

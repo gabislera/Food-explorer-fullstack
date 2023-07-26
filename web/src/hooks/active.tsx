@@ -14,6 +14,10 @@ interface ActiveContextProps {
   setActiveProduct: (data: ActiveProduct) => void
 }
 
+interface Ingredients {
+  name: string
+}
+
 interface ActiveProduct {
   id: number
   name: string
@@ -21,6 +25,7 @@ interface ActiveProduct {
   category: string
   price: string
   image: string
+  ingredients: Ingredients[]
 }
 
 const ActiveContext = createContext({} as ActiveContextProps);

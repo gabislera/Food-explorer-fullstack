@@ -3,59 +3,71 @@ import { Navbar } from "../components/Navbar";
 import { CaretLeft, UploadSimple } from "@phosphor-icons/react";
 import { Input } from "../components/Input";
 import { Tag } from "../components/Tag";
-import { useEffect, useState } from "react";
-import { useActive } from "../hooks/active";
-import { api } from "../services/api";
+import { useEffect, useState } from "react"
+import { useActive } from "../hooks/active"
+import { api } from "../services/api"
+import { useNavigate } from "react-router-dom";
 
 export function Edit() {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const ingredients = ["alface", "tomate"];
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [price, setPrice] = useState("")
+  const [description, setDescription] = useState("")
+  const [image, setImage] = useState(null)
+  const [ingredients, setIngredients] = useState<string[]>([])
+  const [newIngredient, setNewIngredient] = useState<string>('')
+
   const { activeProduct, setActiveProduct } = useActive()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    setName(activeProduct.name);
-    setCategory(activeProduct.category);
-    setPrice(activeProduct.price);
-    setDescription(activeProduct.description);
-  }, []);
+    setName(activeProduct.name)
+    setCategory(activeProduct.category)
+    setPrice(activeProduct.price)
+    setDescription(activeProduct.description)
+
+    const activeIngredients = activeProduct.ingredients.map(ingredient => ingredient.name);
+    setIngredients(activeIngredients)
+  }, [activeProduct])
 
   function handleUpdateProduct(e: any) {
-      e.preventDefault();
-      const updatedProduct = new FormData()
+    e.preventDefault();
+    const updatedProduct = new FormData()
 
-      updatedProduct.append('name', name)
-      updatedProduct.append('description', description)
-      updatedProduct.append('category', category)
-      updatedProduct.append('price', price)
-      updatedProduct.append('ingredients', JSON.stringify(ingredients))
-      if (image) {
-        updatedProduct.append('image', image);
-      }
+    updatedProduct.append('name', name)
+    updatedProduct.append('description', description)
+    updatedProduct.append('category', category)
+    updatedProduct.append('price', price)
+    updatedProduct.append('ingredients', JSON.stringify(ingredients))
+    if (image) {
+      updatedProduct.append('image', image);
+    }
 
-      const productId = activeProduct.id;
+    const productId = activeProduct.id;
 
-      try{
-        api.put(`/products/${productId}`, updatedProduct);
-            
-        setName("");
-        setDescription("");
-        setCategory("");
-        setPrice("");
-        setImage(null);
-        setActiveProduct(null)
-        alert("Produto atualizado com sucesso");
-      } catch {
-        alert("Erro ao atualizar o produto");
+    try {
+      api.put(`/products/${productId}`, updatedProduct);
+      navigate('/')
+      // setActiveProduct(null)
+      alert("Produto atualizado com sucesso");
+    } catch {
+      alert("Erro ao atualizar o produto");
     }
   }
 
   function handleChangeImage(e: any) {
-    const file = e.target.files[0];
-    setImage(file);
+    const file = e.target.files[0]
+    setImage(file)
+  }
+
+  function handleAddIngredient() {
+    setIngredients(prevState => [...prevState, newIngredient])
+    setNewIngredient('')
+  }
+
+  function handleRemoveIngredients(deleted: any) {
+    setIngredients(prevstate => prevstate.filter(tag => tag !== deleted))
   }
 
   return (
@@ -66,13 +78,13 @@ export function Edit() {
         onSubmit={handleUpdateProduct}
         className="flex flex-col flex-1 mx-8 gap-6 mb-14 md:mx-auto md:w-[70rem]"
       >
-        <a className="mt-6 md:ml-0 flex items-center font-poppins " href="">
+        <a className="mt-6 md:ml-0 flex items-center font-poppins " href="/">
           <CaretLeft size={22} />
           voltar
         </a>
 
         <h1 className="font-poppins text-light-300 text-3xl font-medium">
-          Novo Prato
+          {activeProduct?.name}
         </h1>
 
         <div className="flex gap-6 flex-col md:flex-row md:items-center">
@@ -96,7 +108,7 @@ export function Edit() {
             placeholder="Ex.: Salada Ceasar"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            // {...register("name")}
+          // {...register("name")}
           />
 
           <div className="flex flex-col gap-2">
@@ -122,9 +134,17 @@ export function Edit() {
           <div className="flex flex-col gap-2 w-full">
             <label className="text-light-400">Ingredientes</label>
             <div className="px-[0.875rem] py-[0.75rem] text-light-500 bg-dark-900 rounded-lg flex gap-2 flex-wrap">
-              <Tag value="Tomate" />
-              <Tag value="Cebola" />
-              <Tag placeholder="Ingrediente" isNew />
+              {ingredients.map((ingredient, index) => (
+                <Tag
+                  key={index}
+                  value={ingredient}
+                  onClick={() => handleRemoveIngredients(ingredient)} />
+              ))}
+              <Tag
+                placeholder="Ingrediente"
+                isNew value={newIngredient}
+                onClick={handleAddIngredient}
+                onChange={(e: any) => setNewIngredient(e.target.value)} />
             </div>
           </div>
 
@@ -136,7 +156,7 @@ export function Edit() {
               placeholder="R$ 00,00"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              // {...register("price")}
+            // {...register("price")}
             />
           </div>
         </div>

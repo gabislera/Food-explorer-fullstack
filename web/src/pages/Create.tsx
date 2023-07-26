@@ -4,7 +4,7 @@ import { CaretLeft, UploadSimple } from "@phosphor-icons/react";
 import { Input } from "../components/Input";
 import { Tag } from "../components/Tag";
 import { Button } from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../services/api";
 
 export function Create() {
@@ -13,7 +13,13 @@ export function Create() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const ingredients = ["alface", "tomate"];
+  const ingredients2 = ["alface", "tomate"];
+  const [ingredients, setIngredients] = useState<string[]>([])
+  const [newIngredient, setNewIngredient] = useState<string>('')
+
+  useEffect(() => {
+    console.log(ingredients)
+  }, [ingredients])
 
   function handleCreateProduct(e: any) {
     e.preventDefault();
@@ -23,7 +29,7 @@ export function Create() {
     newProduct.append('description', description)
     newProduct.append('category', category)
     newProduct.append('price', price)
-    newProduct.append('ingredients', JSON.stringify(ingredients))
+    newProduct.append('ingredients', JSON.stringify(ingredients2))
     if (image) {
       newProduct.append('image', image);
     }
@@ -35,6 +41,7 @@ export function Create() {
       setCategory('')
       setPrice('')
       setImage(null)
+      setIngredients([])
       alert("Produco criado com sucesso");
     } catch {
       alert("erro");
@@ -44,6 +51,15 @@ export function Create() {
   function handleChangeImage(e: any) {
     const file = e.target.files[0];
     setImage(file);
+  }
+
+  function handleAddIngredient() {
+    setIngredients(prevState => [...prevState, newIngredient])
+    setNewIngredient('')
+  }
+
+  function handleRemoveIngredients(deleted: any) {
+    setIngredients(prevstate => prevstate.filter(tag => tag !== deleted))
   }
 
   return (
@@ -84,7 +100,7 @@ export function Create() {
             placeholder="Ex.: Salada Ceasar"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            // {...register("name")}
+          // {...register("name")}
           />
 
           <div className="flex flex-col gap-2">
@@ -110,9 +126,17 @@ export function Create() {
           <div className="flex flex-col gap-2 w-full">
             <label className="text-light-400">Ingredientes</label>
             <div className="px-[0.875rem] py-[0.75rem] text-light-500 bg-dark-900 rounded-lg flex gap-2 flex-wrap">
-              <Tag value="Tomate" />
-              <Tag value="Cebola" />
-              <Tag placeholder="Ingrediente" isNew />
+              {ingredients.map((ingredient, index) => (
+                <Tag
+                  key={index}
+                  value={ingredient}
+                  onClick={() => handleRemoveIngredients(ingredient)} />
+              ))}
+              <Tag
+                placeholder="Ingrediente"
+                isNew value={newIngredient}
+                onClick={handleAddIngredient}
+                onChange={(e: any) => setNewIngredient(e.target.value)} />
             </div>
           </div>
 
@@ -124,7 +148,7 @@ export function Create() {
               placeholder="R$ 00,00"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              // {...register("price")}
+            // {...register("price")}
             />
           </div>
         </div>
