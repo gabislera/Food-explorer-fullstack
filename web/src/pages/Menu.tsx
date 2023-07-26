@@ -2,15 +2,43 @@ import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { Footer } from "../components/Footer";
 import { useAuth } from "../hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { useActive } from "../hooks/active";
+import { Section } from "../components/Section";
+import { useEffect, useState } from "react";
+import { api } from "../services/api";
+
+interface ProductProps {
+  id: number
+  name: string
+  description: string
+  category: string
+  price: number
+  image: string
+}
 
 export function Menu() {
   const { isAdmin, signOut } = useAuth();
+  const { search, setSearch } = useActive()
+  const [products, setProducts] = useState<ProductProps[]>([])
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await api.get(`/products?name=${search}`)
+      setProducts(response.data.products)
+    }
+
+    fetchTags()
+  }, [search])
 
   function handleSignOut() {
     navigate("/");
     signOut();
+  }
+
+  function handleNavigate() {
+    navigate('/create')
   }
 
   return (
@@ -31,12 +59,16 @@ export function Menu() {
             className="py-3 w-full text-light-500 bg-dark-900 rounded-lg text-center "
             type="text"
             placeholder="Busque por pratos ou ingredientes"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
           />
         </div>
 
+        {search ? <Section title={search} data={products} categoryType='all' /> : <></>}
+
         <div>
           {isAdmin && (
-            <button className="font-poppins text-2xl text-light-300 p-[0.625rem] text-start w-full border-b-[1px] border-dark-1000">
+            <button className="font-poppins text-2xl text-light-300 p-[0.625rem] text-start w-full border-b-[1px] border-dark-1000" onClick={handleNavigate}>
               Novo Prato
             </button>
           )}

@@ -8,6 +8,7 @@ import { Section } from "../components/Section";
 import { Footer } from "../components/Footer";
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import { useActive } from "../hooks/active";
 
 interface ProductProps {
   id: number
@@ -21,15 +22,17 @@ interface ProductProps {
 export function Home() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [products, setProducts] = useState<ProductProps[]>([])
+  const { search } = useActive()
 
   useEffect(() => {
     async function fetchTags() {
-      const response = await api.get('/products')
+      const response = await api.get(`/products?name=${search}`)
       setProducts(response.data.products)
     }
 
     fetchTags()
-  }, [])
+  }, [search])
+
 
   return (
     <div className=" bg-dark-400 ">
@@ -57,10 +60,15 @@ export function Home() {
           </span>
         </div>
       </div>
-
-      <Section title="Refeições" data={products} categoryType='refeicoes' />
-      <Section title="Sobremesas" data={products} categoryType='sobremesas' />
-      <Section title="Bebidas" data={products} categoryType='bebidas' />
+      {
+        search ?
+          <Section title={search} data={products} categoryType='all' />
+          : <>
+            <Section title="Refeições" data={products} categoryType='refeicoes' />
+            <Section title="Sobremesas" data={products} categoryType='sobremesas' />
+            <Section title="Bebidas" data={products} categoryType='bebidas' />
+          </>
+      }
 
       {/* modificar espaçamento footer */}
       <div className="h-[8rem]"></div>

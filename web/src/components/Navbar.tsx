@@ -2,13 +2,13 @@ import { List, MagnifyingGlass, Receipt, SignOut } from "@phosphor-icons/react";
 import polygon from "../assets/polygon.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
-import { useState } from "react";
+// import { useState } from "react";
 import { useActive } from "../hooks/active";
 
 export function Navbar() {
   const { signOut } = useAuth();
-  const [search, setSearch] = useState('')
-  const { setActiveProduct } = useActive()
+  // const [search, setSearch] = useState('')
+  const { setActiveProduct, search, setSearch } = useActive()
   const navigate = useNavigate();
 
   function handleSignOut() {

@@ -2,6 +2,7 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -12,6 +13,8 @@ interface ActiveProviderProps {
 interface ActiveContextProps {
   activeProduct: ActiveProduct
   setActiveProduct: (data: ActiveProduct) => void
+  search: string
+  setSearch: any
 }
 
 interface Ingredients {
@@ -32,10 +35,15 @@ const ActiveContext = createContext({} as ActiveContextProps);
 
 export function ActiveProvider({ children }: ActiveProviderProps) {
   const [activeProduct, setActiveProduct] = useState<ActiveProduct>()
+  const [search, setSearch] = useState<string>('')
+
+  // useEffect(() => {
+  //   console.log(search)
+  // }, [search])
 
   return (
     <ActiveContext.Provider
-      value={{ activeProduct, setActiveProduct }}
+      value={{ activeProduct, setActiveProduct, search, setSearch }}
     >
       {children}
     </ActiveContext.Provider>

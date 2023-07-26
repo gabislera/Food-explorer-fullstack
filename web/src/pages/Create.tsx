@@ -4,8 +4,9 @@ import { CaretLeft, UploadSimple } from "@phosphor-icons/react";
 import { Input } from "../components/Input";
 import { Tag } from "../components/Tag";
 import { Button } from "../components/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export function Create() {
   const [name, setName] = useState("");
@@ -13,13 +14,10 @@ export function Create() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const ingredients2 = ["alface", "tomate"];
+  // const ingredients2 = ["alface", "tomate"];
   const [ingredients, setIngredients] = useState<string[]>([])
   const [newIngredient, setNewIngredient] = useState<string>('')
-
-  useEffect(() => {
-    console.log(ingredients)
-  }, [ingredients])
+  const navigate = useNavigate()
 
   function handleCreateProduct(e: any) {
     e.preventDefault();
@@ -29,7 +27,7 @@ export function Create() {
     newProduct.append('description', description)
     newProduct.append('category', category)
     newProduct.append('price', price)
-    newProduct.append('ingredients', JSON.stringify(ingredients2))
+    newProduct.append('ingredients', JSON.stringify(ingredients))
     if (image) {
       newProduct.append('image', image);
     }
@@ -62,6 +60,10 @@ export function Create() {
     setIngredients(prevstate => prevstate.filter(tag => tag !== deleted))
   }
 
+  function handleBack() {
+    navigate(-1)
+  }
+
   return (
     <div className="flex-layout min-h-screen flex flex-col">
       <Navbar />
@@ -70,7 +72,7 @@ export function Create() {
         onSubmit={handleCreateProduct}
         className="flex flex-col flex-1 mx-8 gap-6 mb-14 md:mx-auto md:w-[70rem]"
       >
-        <a className="mt-6 md:ml-0 flex items-center font-poppins " href="">
+        <a onClick={handleBack} className="mt-6 md:ml-0 flex items-center font-poppins " href="">
           <CaretLeft size={22} />
           voltar
         </a>

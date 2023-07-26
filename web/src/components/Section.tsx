@@ -28,7 +28,9 @@ interface SectionProps {
 export function Section({ title, data, categoryType }: SectionProps) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  const filteredProducts = data.filter(product => product.category === categoryType)
+  const filter = data.filter(product => product.category === categoryType)
+
+  const filteredProducts = categoryType === 'all' ? data : filter
 
   const slidesPerView = isMobile ? 2 : 4;
   const isCentered = isMobile ? true : false;
