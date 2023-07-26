@@ -15,5 +15,6 @@ productsRoutes.post("/", ensureAuthenticated, upload.single("image"), productCon
 productsRoutes.get("/:id", productController.show)
 productsRoutes.delete("/:id", ensureAuthenticated, productController.delete)
 productsRoutes.get("/", productController.index)
+productsRoutes.put("/:id", ensureAuthenticated, upload.single("image"), productController.update);
 
 module.exports = productsRoutes
