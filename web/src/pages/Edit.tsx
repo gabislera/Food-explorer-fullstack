@@ -6,7 +6,7 @@ import { Tag } from "../components/Tag";
 import { useEffect, useState } from "react"
 import { useActive } from "../hooks/active"
 import { api } from "../services/api"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Edit() {
   const [name, setName] = useState("")
@@ -17,7 +17,7 @@ export function Edit() {
   const [ingredients, setIngredients] = useState<string[]>([])
   const [newIngredient, setNewIngredient] = useState<string>('')
 
-  const { activeProduct, setActiveProduct } = useActive()
+  const { activeProduct } = useActive()
 
   const navigate = useNavigate()
 
@@ -78,10 +78,10 @@ export function Edit() {
         onSubmit={handleUpdateProduct}
         className="flex flex-col flex-1 mx-8 gap-6 mb-14 md:mx-auto md:w-[70rem]"
       >
-        <a className="mt-6 md:ml-0 flex items-center font-poppins " href="/">
+        <Link className="mt-6 md:ml-0 flex items-center font-poppins" to='/' >
           <CaretLeft size={22} />
           voltar
-        </a>
+        </Link>
 
         <h1 className="font-poppins text-light-300 text-3xl font-medium">
           {activeProduct?.name}
@@ -180,7 +180,7 @@ export function Edit() {
               Excluir prato
             </button>
             <button
-              className="rounded-md w-full font-poppins font-normal text-light-100 bg-tomato-100 py-3 px-6 whitespace-nowrap min-w-fit"
+              className="rounded-md w-full font-poppins font-normal text-light-100 bg-tomato-100 hover:bg-tomato-200 py-3 px-6 whitespace-nowrap min-w-fit"
               type="submit"
             >
               Salvar alterações

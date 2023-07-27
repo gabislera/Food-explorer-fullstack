@@ -15,7 +15,7 @@ export function ProductAdd() {
         </button>
       </div>
       <button
-        className="rounded-md font-poppins text-sm font-normal text-light-100 bg-tomato-100 py-2 px-6"
+        className="rounded-md font-poppins text-sm font-normal text-light-100 bg-tomato-100 hover:bg-tomato-200 py-2 px-6"
         type="submit"
       >
         incluir

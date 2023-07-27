@@ -6,7 +6,8 @@ import { Tag } from "../components/Tag";
 import { Button } from "../components/Button";
 import { useState } from "react";
 import { api } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/auth";
 
 export function Create() {
   const [name, setName] = useState("");
@@ -14,10 +15,9 @@ export function Create() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  // const ingredients2 = ["alface", "tomate"];
   const [ingredients, setIngredients] = useState<string[]>([])
   const [newIngredient, setNewIngredient] = useState<string>('')
-  const navigate = useNavigate()
+  const { isAdmin } = useAuth()
 
   function handleCreateProduct(e: any) {
     e.preventDefault();
@@ -60,10 +60,7 @@ export function Create() {
     setIngredients(prevstate => prevstate.filter(tag => tag !== deleted))
   }
 
-  function handleBack() {
-    navigate(-1)
-  }
-
+  if (!isAdmin) return <></> // talvez mudar abordagem de rotas admin
   return (
     <div className="flex-layout min-h-screen flex flex-col">
       <Navbar />
@@ -72,10 +69,10 @@ export function Create() {
         onSubmit={handleCreateProduct}
         className="flex flex-col flex-1 mx-8 gap-6 mb-14 md:mx-auto md:w-[70rem]"
       >
-        <a onClick={handleBack} className="mt-6 md:ml-0 flex items-center font-poppins " href="">
+        <Link className="mt-6 md:ml-0 flex items-center font-poppins " to='/'>
           <CaretLeft size={22} />
           voltar
-        </a>
+        </Link>
 
         <h1 className="font-poppins text-light-300 text-3xl font-medium">
           Novo Prato

@@ -1,9 +1,10 @@
-import { Heart, PencilSimple } from "@phosphor-icons/react";
+import { Heart, IconWeight, PencilSimple } from "@phosphor-icons/react";
 import "keen-slider/keen-slider.min.css";
 import { ProductAdd } from "./ProductAdd";
 import { useAuth } from "../hooks/auth";
 import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface ProductCardProps {
   id: number
@@ -15,11 +16,16 @@ interface ProductCardProps {
 }
 
 export function Card({ product }: { product: ProductCardProps }) {
+  const [fill, setFill] = useState<IconWeight>("thin")
   const { isAdmin } = useAuth();
   const navigate = useNavigate()
 
   function handleDetails() {
     navigate(`/products/${product.id}`)
+  }
+
+  function handleFillHeart() {
+    setFill((prevFill) => (prevFill === 'fill' ? 'thin' : 'fill')) // modificar, efeito apenas visual
   }
 
   const imageUrl = `${api.defaults.baseURL}/files/${product.image}`
@@ -35,7 +41,7 @@ export function Card({ product }: { product: ProductCardProps }) {
           onClick={handleDetails}
         />
       ) : (
-        <Heart color="white" size={24} className="absolute top-4 right-4" />
+        <Heart color="white" size={24} weight={fill} className="absolute top-4 right-4 cursor-pointer" onClick={handleFillHeart} />
       )}
 
       <h1 onClick={handleDetails} className="font-poppins cursor-pointer text-sm md:text-2xl font-bold text-light-300 truncate" >

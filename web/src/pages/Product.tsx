@@ -28,7 +28,6 @@ export function Product() {
   const navigate = useNavigate();
   const { setActiveProduct } = useActive();
 
-
   useEffect(() => {
     async function fetchProduct() {
       const response = await api.get(`/products/${params.id}`);
@@ -36,10 +35,6 @@ export function Product() {
     }
     fetchProduct();
   }, [params.id]);
-
-  useEffect(() => {
-    console.log(product)
-  }, [product])
 
   function handleEditProduct() {
     navigate("/edit");
@@ -85,7 +80,7 @@ export function Product() {
             {isAdmin ? (
               <button
                 onClick={handleEditProduct}
-                className="rounded-md font-poppins w-full text-sm font-normal md:w-fit text-light-100 bg-tomato-100 py-2 px-6"
+                className="rounded-md font-poppins w-full text-sm font-normal md:w-fit text-light-100 bg-tomato-100 hover:bg-tomato-200 py-2 px-6"
                 type="submit"
               >
                 Editar prato
@@ -104,7 +99,7 @@ export function Product() {
                   </button>
                 </div>
                 <button
-                  className="rounded-md font-poppins text-sm font-normal text-light-100 bg-tomato-100 py-2 px-6"
+                  className="rounded-md font-poppins text-sm font-normal text-light-100 bg-tomato-100 hover:bg-tomato-200 py-2 px-6"
                   type="submit"
                 >
                   incluir

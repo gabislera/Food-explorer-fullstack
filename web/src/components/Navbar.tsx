@@ -60,15 +60,15 @@ export function Navbar() {
       {isAdmin ? (
         <button
           onClick={handleCreateProduct}
-          className="text-light-100 rounded-md font-poppins font-normal md:bg-tomato-100 md:py-3 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap"
+          className="text-light-100 rounded-md font-poppins font-normal md:bg-tomato-100 hover:bg-tomato-200 md:py-3 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap"
         >
           <span className="hidden md:inline">Novo prato</span>
         </button>
       ) : (
-        <button className="text-light-100 relative rounded-md font-poppins font-normal md:bg-tomato-100 md:py-2 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap">
+        <button className="text-light-100 relative rounded-md font-poppins font-normal md:bg-tomato-100 hover:bg-tomato-200 md:py-2 md:px-8 md:flex md:items-center md:gap-2 md:whitespace-nowrap">
           <Receipt size={32} />
           <span className="hidden md:inline">Pedidos (0)</span>
-          <span className="w-5 h-5 bg-tomato-200 absolute rounded-full -top-1 md:hidden">
+          <span className="w-5 h-5 bg-tomato-100 hover:bg-tomato-200 absolute rounded-full -top-1 md:hidden">
             0
           </span>
         </button>

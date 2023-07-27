@@ -32,6 +32,11 @@ const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [userData, setUserData] = useState<UserDataProps>({});
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    console.log(isAdmin)
+  }, [isAdmin])
 
   async function signIn(data: SignInProps) {
     try {
@@ -43,6 +48,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       setUserData({ user, token });
+
+      if (user.role === "admin") setIsAdmin(true)
+
     } catch (err: any) {
       if (err.response) {
         alert(err.response.data.message);
@@ -55,6 +63,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem("@foodexplorer:user");
 
     setUserData({});
+    setIsAdmin(false)
   }
 
   useEffect(() => {
@@ -71,7 +80,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
-  const isAdmin = true;
+  // const isAdmin = true;
 
   return (
     <AuthContext.Provider
