@@ -4,7 +4,7 @@ const { hash, compare } = require('bcrypt')
 
 class UserController {
   async create(req, res) {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
 
     const checkUserExists = await knex("users").where({ email }).first()
 
@@ -17,7 +17,8 @@ class UserController {
     const user = {
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role,
     }
 
     await knex("users").insert(user)
@@ -26,7 +27,7 @@ class UserController {
   }
 
   async update(req, res) {
-    const { name, email, password, old_password } = req.body
+    const { name, email, password, old_password, role } = req.body
     const id = req.user.id
 
     const user = await knex("users").where({ id }).first()
@@ -37,12 +38,13 @@ class UserController {
 
     const userWithUpdatedEmail = await knex("users").where({ email }).first()
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail.id != id) { //arrumar string X number
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id != id) {
       throw new AppError("Este email ja está em uso", 401)
     }
 
     user.name = name ?? user.name
     user.email = email ?? user.email
+    user.role = role ?? user.role // arrumar
 
     if (password && !old_password) { // digitou a senha nova mas nao digitou a senha antiga
       throw new AppError("Informe a senha antiga")
