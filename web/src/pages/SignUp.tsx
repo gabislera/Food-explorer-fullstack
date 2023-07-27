@@ -48,7 +48,7 @@ export function SignUp() {
   }
   return (
     <div className="h-screen bg-dark-400 flex">
-      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[30rem]">
+      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[22rem]">
         <div className="flex gap-3 mb-[4.56rem]">
           <img src={polygon} alt="" />
           <h1 className="text-light-100 text-4xl font-bold flex-shrink-0 ">
