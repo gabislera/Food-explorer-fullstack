@@ -18,6 +18,7 @@ export function Edit() {
   const [newIngredient, setNewIngredient] = useState<string>('')
 
   const { activeProduct } = useActive()
+  const productId = activeProduct.id
 
   const navigate = useNavigate()
 
@@ -44,8 +45,6 @@ export function Edit() {
       updatedProduct.append('image', image);
     }
 
-    const productId = activeProduct.id;
-
     try {
       api.put(`/products/${productId}`, updatedProduct);
       navigate('/')
@@ -53,6 +52,15 @@ export function Edit() {
       alert("Produto atualizado com sucesso");
     } catch {
       alert("Erro ao atualizar o produto");
+    }
+  }
+
+  async function handleDeleteProduct() {
+    const confirm = window.confirm('Deseja realmente remover o produto?')
+
+    if (confirm) {
+      await api.delete(`/products/${productId}`)
+      navigate('/')
     }
   }
 
@@ -69,6 +77,7 @@ export function Edit() {
   function handleRemoveIngredients(deleted: any) {
     setIngredients(prevstate => prevstate.filter(tag => tag !== deleted))
   }
+
 
   return (
     <div className="flex-layout min-h-screen flex flex-col">
@@ -174,6 +183,7 @@ export function Edit() {
         <div className="md:self-end">
           <div className="flex gap-8">
             <button
+              onClick={handleDeleteProduct}
               className="rounded-md w-full font-poppins font-normal text-light-100 bg-dark-900 py-3 px-6 whitespace-nowrap min-w-fit"
               type="button"
             >

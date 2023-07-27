@@ -48,7 +48,7 @@ export function SignUp() {
   }
   return (
     <div className="h-screen bg-dark-400 flex">
-      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[45rem] ">
+      <div className="flex mx-auto flex-col items-center mt-40 md:flex-row md:mt-0 md:gap-[30rem]">
         <div className="flex gap-3 mb-[4.56rem]">
           <img src={polygon} alt="" />
           <h1 className="text-light-100 text-4xl font-bold flex-shrink-0 ">
@@ -56,13 +56,13 @@ export function SignUp() {
           </h1>
         </div>
 
-        <div className="w-full flex flex-col gap-8 md:bg-dark-700 md:p-20 md:rounded-2xl">
+        <div className="w-full md:w-[30rem] flex flex-col gap-8 md:bg-dark-700 md:p-20 md:rounded-2xl">
           <h1 className="font-poppins text-4xl text-center text-light-100 hidden md:inline">
             Crie sua conta
           </h1>
 
           <form
-            className="items-center w-full flex flex-col gap-8"
+            className="items-center flex flex-col gap-8"
             onSubmit={handleSubmit(handleSignUp)}
           >
             <Input
@@ -89,7 +89,7 @@ export function SignUp() {
               {...register("password")}
             />
 
-            <Button title="Entrar" />
+            <Button title="Cadastrar" />
           </form>
 
           <a
