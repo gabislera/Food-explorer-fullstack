@@ -67,6 +67,7 @@ export function Home() {
             <Section title="Refeições" data={products} categoryType='refeicoes' />
             <Section title="Sobremesas" data={products} categoryType='sobremesas' />
             <Section title="Bebidas" data={products} categoryType='bebidas' />
+            <Section title="Cafés" data={products} categoryType='cafe' />
           </>
       }
 
