@@ -66,7 +66,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const token = localStorage.getItem("@foodexplorer:token");
     const user = localStorage.getItem("@foodexplorer:user");
     const userObj = JSON.parse(user)
-    if (userObj.role === "admin") setIsAdmin(true)
+
+    if (userObj && userObj.role === "admin") setIsAdmin(true)
 
     if (token && user) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
