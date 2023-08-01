@@ -36,8 +36,6 @@ export function ActiveProvider({ children }: ActiveProviderProps) {
   const [activeProduct, setActiveProduct] = useState<ActiveProduct>()
   const [search, setSearch] = useState<string>('')
 
-
-
   return (
     <ActiveContext.Provider
       value={{ activeProduct, setActiveProduct, search, setSearch }}

@@ -32,7 +32,7 @@ export function Card({ product }: { product: ProductCardProps }) {
 
   return (
     <div className="bg-dark-300 max-w-[13.125rem] md:max-w-[19rem] items-center rounded-lg flex flex-col gap-3 md:gap-4 p-6 relative">
-      <img src={imageUrl} alt="" className="w-[5.5rem] md:w-auto" />
+      <img src={imageUrl} alt="" className="w-[5.5rem] md:w-full" />
       {isAdmin ? (
         <PencilSimple
           color="white"

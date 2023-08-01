@@ -34,10 +34,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [userData, setUserData] = useState<UserDataProps>({});
   const [isAdmin, setIsAdmin] = useState(false)
 
-  useEffect(() => {
-    console.log(isAdmin)
-  }, [isAdmin])
-
   async function signIn(data: SignInProps) {
     try {
       const response = await api.post("/sessions", data);
@@ -69,6 +65,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const token = localStorage.getItem("@foodexplorer:token");
     const user = localStorage.getItem("@foodexplorer:user");
+    const userObj = JSON.parse(user)
+    if (userObj.role === "admin") setIsAdmin(true)
 
     if (token && user) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -79,8 +77,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
     }
   }, []);
-
-  // const isAdmin = true;
 
   return (
     <AuthContext.Provider
