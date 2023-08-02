@@ -28,7 +28,7 @@ class ProductController {
       }
     })
 
-    await knex("ingredients").insert(ingredientsInsert)
+    if (ingredientsInsert.lenght) await knex("ingredients").insert(ingredientsInsert)
 
     return res.json()
   }
