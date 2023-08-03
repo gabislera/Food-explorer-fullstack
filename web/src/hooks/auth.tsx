@@ -16,6 +16,7 @@ interface AuthContextProps {
   signIn: (props: SignInProps) => Promise<void>;
   signOut: () => void;
   user: any;
+  isLogged: boolean
 }
 
 interface SignInProps {
@@ -33,6 +34,7 @@ const AuthContext = createContext({} as AuthContextProps);
 export function AuthProvider({ children }: AuthProviderProps) {
   const [userData, setUserData] = useState<UserDataProps>({});
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isLogged, setIsLogged] = useState(false)
 
   async function signIn(data: SignInProps) {
     try {
@@ -47,6 +49,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (user.role === "admin") setIsAdmin(true)
 
+      setIsLogged(true)
+
     } catch (err: any) {
       if (err.response) {
         alert(err.response.data.message);
@@ -60,6 +64,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     setUserData({});
     setIsAdmin(false)
+    setIsLogged(false)
+
   }
 
   useEffect(() => {
@@ -76,12 +82,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         token,
         user: JSON.parse(user),
       });
+    } else {
+      signOut()
     }
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isAdmin, signIn, signOut, user: userData.user }}
+      value={{ isAdmin, signIn, signOut, user: userData.user, isLogged }}
     >
       {children}
     </AuthContext.Provider>

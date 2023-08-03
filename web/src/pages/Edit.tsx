@@ -135,6 +135,8 @@ export function Edit() {
               <option value="refeicoes">Refeições</option>
               <option value="sobremesas">Sobremesas</option>
               <option value="bebidas">Bebidas</option>
+              <option value="cafe">Café</option>
+
             </select>
           </div>
         </div>

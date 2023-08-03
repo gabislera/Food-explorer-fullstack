@@ -24,7 +24,7 @@ export function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignInInputs>({
     resolver: zodResolver(signInSchema),
   });
@@ -32,6 +32,7 @@ export function SignIn() {
   function handleSignIn(data: SignInInputs) {
     signIn(data);
   }
+
 
   return (
     <div className="h-screen bg-dark-400 flex">
@@ -68,7 +69,7 @@ export function SignIn() {
               error={errors.password}
             />
 
-            <Button title="Entrar" />
+            <Button title="Entrar" isSubmitting={isSubmitting} />
           </form>
 
           <a
