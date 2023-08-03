@@ -7,6 +7,8 @@ class ProductController {
     const user_id = req.user.id
     const image = req.file.filename
 
+    // console.log(ingredients)
+
     const diskStorage = new DiskStorage()
     const filename = await diskStorage.saveFile(image)
 
@@ -28,7 +30,7 @@ class ProductController {
       }
     })
 
-    if (ingredientsInsert.lenght) await knex("ingredients").insert(ingredientsInsert)
+    if (ingredientsInsert.length) await knex("ingredients").insert(ingredientsInsert)
 
     return res.json()
   }
@@ -82,6 +84,7 @@ class ProductController {
 
     const product = await knex('products').where({ id }).first()
     const ingredients = await knex('ingredients').where({ product_id: id }).orderBy('name')
+
 
     return res.json({ ...product, ingredients })
   }
